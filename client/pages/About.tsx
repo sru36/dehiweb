@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const ABOUT_IMAGE =
-  "https://cdn.builder.io/api/v1/image/assets%2Fc4cd4783faee4d4a852d9c690354555a%2F349f4bdeec77459fa1f1548c83a0e366?format=webp&width=1200";
+  "/about.jpg";
 
 export default function About() {
   return (
@@ -66,27 +66,27 @@ export default function About() {
       </section>
 
       <section className="container mx-auto px-4 py-12">
-        <div className="rounded-lg border bg-card p-8">
-          <h3 className="text-2xl font-bold">Contact Us</h3>
-          <p className="mt-3 text-foreground/90">
+        <div className="rounded-lg border bg-primary p-8">
+          <h3 className="text-2xl font-bold text-primary-foreground">Contact Us</h3>
+          <p className="mt-3 text-primary-foreground/90">
             For inquiries, partnerships, or support, reach out to us:
           </p>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2 items-start">
             <div>
-              <div className="font-semibold">Email</div>
+              <div className="font-semibold text-primary-foreground">Email</div>
               <a
                 href="mailto:support@dehi.org"
-                className="text-foreground/80 hover:text-primary"
+                className="inline-block mt-1 px-2 py-1 rounded bg-primary-foreground text-primary hover:text-primary/80"
               >
                 support@dehi.org
               </a>
             </div>
             <div>
-              <div className="font-semibold">Phone</div>
+              <div className="font-semibold text-primary-foreground">Phone</div>
               <a
                 href="tel:+911234567890"
-                className="text-foreground/80 hover:text-primary"
+                className="inline-block mt-1 px-2 py-1 rounded bg-primary-foreground text-primary hover:text-primary/80"
               >
                 +91-1234567890
               </a>
@@ -96,8 +96,8 @@ export default function About() {
       </section>
 
       <section className="container mx-auto px-4 py-12">
-        <h3 className="text-2xl font-bold mb-6">Frequently Asked Questions</h3>
-        <div className="space-y-4 max-w-2xl">
+        <h3 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h3>
+        <div className="space-y-4 max-w-2xl mx-auto">
           <details className="rounded-md border bg-card p-4 cursor-pointer group">
             <summary className="font-semibold flex items-center justify-between">
               How are NGOs verified on Dehi?
