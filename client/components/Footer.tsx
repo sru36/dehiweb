@@ -9,9 +9,6 @@ export function Footer() {
         </div>
         <div className="flex items-center justify-end gap-6">
           <nav className="hidden md:flex gap-4 text-sm">
-            <Link to="/our-impact" className="hover:text-primary">
-              Our Impact
-            </Link>
             <Link to="/explore" className="hover:text-primary">
               Explore
             </Link>
