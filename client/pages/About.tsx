@@ -66,27 +66,27 @@ export default function About() {
       </section>
 
       <section className="container mx-auto px-4 py-12">
-        <div className="rounded-lg border bg-primary p-8">
-          <h3 className="text-2xl font-bold text-primary-foreground">Contact Us</h3>
-          <p className="mt-3 text-primary-foreground/90">
+        <div className="rounded-lg border-2 border-[#FF5E5E] bg-white p-8">
+          <h3 className="text-2xl font-bold text-black text-center">Contact Us</h3>
+          <p className="mt-3 text-black/80 text-center">
             For inquiries, partnerships, or support, reach out to us:
           </p>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2 items-start">
             <div>
-              <div className="font-semibold text-primary-foreground">Email</div>
+              <div className="font-semibold text-black">Email</div>
               <a
                 href="mailto:support@dehi.org"
-                className="inline-block mt-1 px-2 py-1 rounded bg-primary-foreground text-primary hover:text-primary/80"
+                className="inline-block mt-1 text-black hover:text-[#FF5E5E] font-medium"
               >
                 support@dehi.org
               </a>
             </div>
-            <div>
-              <div className="font-semibold text-primary-foreground">Phone</div>
+            <div className="text-right">
+              <div className="font-semibold text-black">Phone</div>
               <a
                 href="tel:+911234567890"
-                className="inline-block mt-1 px-2 py-1 rounded bg-primary-foreground text-primary hover:text-primary/80"
+                className="inline-block mt-1 text-black hover:text-[#FF5E5E] font-medium"
               >
                 +91-1234567890
               </a>

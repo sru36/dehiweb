@@ -1,134 +1,115 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Carousel } from "@/components/Carousel";
+import { DonationCard } from "@/components/DonationCard";
+import { donationCampaigns } from "@/data/donationCampaigns";
+import { BannerCarousel } from "@/components/BannerCarousel";
 import { Eye, BarChart3, ShieldCheck, ArrowRight } from "lucide-react";
+import ScrollStack, { ScrollStackItem } from "@/components/ScrollStack";
+import "@/components/ScrollStack.css";
 
-const HERO_IMAGE =
-  "https://cdn.builder.io/api/v1/image/assets%2Fc4cd4783faee4d4a852d9c690354555a%2Fec32dddb588a48a58e936ca9bc7a4e88?format=webp&width=2000";
+
+// Banner data with 5 banners
+const banners = [
+  {
+    id: 1,
+    title: "Help Blind and other\ndisabled children with shelter,\neducation and care",
+    description: "Support children with disabilities to lead independent and dignified lives.",
+    imageUrl: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&h=600&fit=crop",
+    link: "/donate?cause=disability",
+  },
+  {
+    id: 2,
+    title: "Education for Every\nChild - Breaking Barriers\nto Learning",
+    description: "Empower underprivileged children with quality education and opportunities.",
+    imageUrl: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&h=600&fit=crop",
+    link: "/donate?cause=education",
+  },
+  {
+    id: 3,
+    title: "Healthcare Access for\nRural Communities\nin Need",
+    description: "Bringing medical care and health services to remote villages.",
+    imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop",
+    link: "/donate?cause=healthcare",
+  },
+  {
+    id: 4,
+    title: "Feed the Hungry\nProviding Meals to\nThose in Need",
+    description: "Your donation helps us serve nutritious meals to thousands every day.",
+    imageUrl: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop",
+    link: "/donate?cause=food",
+  },
+  {
+    id: 5,
+    title: "Environmental\nConservation - Plant\nTrees, Save Earth",
+    description: "Join us in our mission to create a greener and healthier planet.",
+    imageUrl: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
+    link: "/donate?cause=environment",
+  },
+];
 
 export default function Index() {
   return (
     <main className="bg-background text-foreground">
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src={HERO_IMAGE}
-            alt="Community impact"
-            className="w-full h-[520px] object-cover"
-          />
-          <div className="absolute inset-0 bg-secondary/70" />
-        </div>
+      {/* Moving Banner Carousel */}
+      <BannerCarousel banners={banners} autoPlayInterval={15000} />
 
-        <div className="container relative z-10 mx-auto flex min-h-[520px] items-center px-4">
-          <div className="max-w-3xl">
-            <div className="inline-block rounded-md bg-secondary/90 px-3 py-1 text-sm font-medium">
-              Trusted • Transparent • Local
-            </div>
-            <h1 className="mt-6 text-4xl md:text-5xl font-extrabold leading-tight">
-              dehi (देहि) — Help real people, see real impact
-            </h1>
-            <p className="mt-4 text-lg text-foreground/90 max-w-2xl">
-              Find verified projects, donate securely, and track exactly how
-              funds are used with visual updates from the field.
+      {/* Dynamic Donation Carousel */}
+      <section className="py-16 bg-gradient-to-b from-white to-orange-50">
+        <div className="container mx-auto px-4 mb-10">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">
+              Make an Impact Today
+            </h2>
+            <p className="mt-3 text-lg text-gray-700 max-w-2xl mx-auto">
+              Choose a cause that moves your heart. Every donation brings hope
+              and change to someone's life.
             </p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/explore">
-                <Button
-                  size="lg"
-                  className="uppercase bg-primary text-primary-foreground hover:bg-primary/90 px-6"
-                >
-                  Donate
-                </Button>
-              </Link>
-              <Link to="/register-ngo">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-foreground text-foreground hover:bg-secondary px-6"
-                >
-                  Register your NGO
-                </Button>
-              </Link>
-            </div>
-
-            <p className="mt-4 text-sm text-foreground/80">
-              Already a donor?{" "}
-              <Link to="/login" className="hover:text-primary font-medium">
-                Log in
-              </Link>{" "}
-              to view your dashboard.
+            <p className="mt-2 text-base text-red-600 font-semibold" style={{ fontFamily: "'Noto Sans Devanagari', sans-serif" }}>
+              आपका छोटा सा योगदान किसी का जीवन बदल सकता है।
             </p>
           </div>
         </div>
-      </section>
 
-      {/* Give Monthly / Featured Projects */}
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold">Give Monthly</h2>
-        <p className="mt-2 text-foreground/80">
-          Support ongoing work with a small monthly contribution. Change happens
-          over time.
-        </p>
+        {/* Carousel Container */}
+        <div className="relative">
+          <Carousel
+            pauseOnHover={true}
+            repeat={2}
+            duration={120}
+            gap={24}
+          >
+            {donationCampaigns.map((campaign) => (
+              <DonationCard key={campaign.id} campaign={campaign} />
+            ))}
+          </Carousel>
 
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <article
-              key={i}
-              className="rounded-lg border bg-card overflow-hidden"
-            >
-              <img
-                src={`https://source.unsplash.com/collection/190727/800x600?sig=${i}`}
-                alt={`project ${i}`}
-                className="h-40 w-full object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold">Project title {i + 1}</h3>
-                <div className="mt-1 text-sm text-foreground/70">
-                  Organization Name
-                </div>
-                <p className="mt-3 text-sm text-foreground/80">
-                  Short one-line summary of the project and who it helps.
-                </p>
+          {/* Fade indicators */}
+          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-orange-50 to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-orange-50 to-transparent pointer-events-none" />
+        </div>
 
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="w-2/3">
-                    <div className="h-2 w-full rounded-full bg-[rgba(0,0,0,0.06)]">
-                      <div
-                        className="h-2 rounded-full bg-primary"
-                        style={{ width: `${30 + i * 10}%` }}
-                      />
-                    </div>
-                    <div className="mt-1 text-xs text-foreground/70">
-                      {30 + i * 10}% funded
-                    </div>
-                  </div>
-                  <Button
-                    size="sm"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90"
-                  >
-                    Donate
-                  </Button>
-                </div>
-              </div>
-            </article>
-          ))}
+        {/* Trust statement */}
+        <div className="mt-12 text-center">
+          <p className="text-sm text-gray-600">
+            ✓ Verified NGOs • ✓ Transparent Impact • ✓ Secure Donations
+          </p>
         </div>
       </section>
 
       {/* Support a Fundraiser */}
-      <section className="bg-secondary">
+      <section className="bg-gradient-to-b from-orange-50 to-white">
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <h3 className="text-2xl font-bold">Support a fundraiser</h3>
-              <p className="mt-2 text-foreground/80 max-w-xl">
+              <h3 className="text-2xl font-bold text-gray-900">Support a fundraiser</h3>
+              <p className="mt-2 text-gray-700 max-w-xl">
                 Donate directly to causes started by individuals and NGOs.
                 Hand-picked campaigns from verified organizations.
               </p>
             </div>
             <Link to="/explore">
-              <Button className="uppercase bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button className="uppercase bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 shadow-md">
                 See Fundraisers
               </Button>
             </Link>
@@ -136,33 +117,31 @@ export default function Index() {
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <article key={i} className="rounded-lg border bg-card p-4">
+              <article key={i} className="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-md transition-shadow">
                 <div className="flex gap-3">
-                  <img
-                    src={`https://source.unsplash.com/collection/190727/200x160?sig=${i + 10}`}
-                    alt="fundraiser"
-                    className="h-20 w-28 object-cover rounded-md"
-                  />
+                  <div className="h-20 w-28 bg-gradient-to-br from-orange-100 to-red-100 rounded-md flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold">Fundraiser {i + 1}</h4>
-                    <div className="text-sm text-foreground/70">
+                    <h4 className="font-semibold text-gray-900">Fundraiser {i + 1}</h4>
+                    <div className="text-sm text-gray-600">
                       by Volunteer
                     </div>
-                    <p className="mt-2 text-sm text-foreground/80">
+                    <p className="mt-2 text-sm text-gray-700">
                       Brief one-line description of the fundraiser.
                     </p>
                   </div>
                 </div>
                 <div className="mt-4 flex items-center justify-between">
-                  <div className="text-sm text-foreground/70">
+                  <div className="text-sm font-semibold text-red-600">
                     ₹{1000 * (i + 1)} raised
                   </div>
-                  <Button
-                    size="sm"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90"
-                  >
-                    Donate
-                  </Button>
+                  <Link to="/donate">
+                    <Button
+                      size="sm"
+                      className="bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700"
+                    >
+                      Donate
+                    </Button>
+                  </Link>
                 </div>
               </article>
             ))}
@@ -172,8 +151,8 @@ export default function Index() {
 
       {/* Trusted NGO partners */}
       <section className="container mx-auto px-4 py-16">
-        <h3 className="text-2xl font-bold">Our trusted NGO partners</h3>
-        <p className="mt-2 text-foreground/80">
+        <h3 className="text-2xl font-bold text-gray-900">Our trusted NGO partners</h3>
+        <p className="mt-2 text-gray-700">
           Verified organizations working with communities across India.
         </p>
 
@@ -181,7 +160,7 @@ export default function Index() {
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="flex items-center justify-center rounded-md border bg-white p-4"
+              className="flex items-center justify-center rounded-md border border-gray-200 bg-white p-4"
             >
               <img
                 src={`https://placehold.co/120x40?text=NGO+${i + 1}`}
@@ -193,26 +172,26 @@ export default function Index() {
       </section>
 
       {/* Stats + CTA strip */}
-      <section className="bg-card">
+      <section className="bg-gradient-to-r from-red-50 to-orange-50">
         <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex gap-8">
             <div>
-              <div className="text-3xl font-extrabold">2.7M+</div>
-              <div className="text-sm text-foreground/70">Donations</div>
+              <div className="text-3xl font-extrabold text-gray-900">2.7M+</div>
+              <div className="text-sm text-gray-700">Donations</div>
             </div>
             <div>
-              <div className="text-3xl font-extrabold">15M+</div>
-              <div className="text-sm text-foreground/70">People helped</div>
+              <div className="text-3xl font-extrabold text-gray-900">15M+</div>
+              <div className="text-sm text-gray-700">People helped</div>
             </div>
             <div>
-              <div className="text-3xl font-extrabold">3000+</div>
-              <div className="text-sm text-foreground/70">NGOs</div>
+              <div className="text-3xl font-extrabold text-gray-900">3000+</div>
+              <div className="text-sm text-gray-700">NGOs</div>
             </div>
           </div>
 
           <div>
             <Link to="/donate">
-              <Button className="uppercase bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button className="uppercase bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 shadow-md">
                 Start donating
               </Button>
             </Link>
@@ -224,7 +203,7 @@ export default function Index() {
       <section className="container mx-auto px-4 py-16">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <h4 className="text-xl font-bold">In the news</h4>
+            <h4 className="text-xl font-bold text-gray-900">In the news</h4>
             <div className="mt-4 space-y-4">
               <NewsCard />
               <NewsCard />
@@ -232,7 +211,7 @@ export default function Index() {
           </div>
 
           <div className="md:col-span-2">
-            <h4 className="text-xl font-bold">What people say about Dehi</h4>
+            <h4 className="text-xl font-bold text-gray-900">What people say about Dehi</h4>
             <div className="mt-4 grid gap-6 md:grid-cols-2">
               <Testimonial />
               <Testimonial />
@@ -244,11 +223,11 @@ export default function Index() {
       </section>
 
       {/* Simple blog CTA */}
-      <section className="bg-secondary">
-        <div className="container mx-auto px-4 py-12 flex items-center justify-between gap-6">
+      <section className="bg-gradient-to-b from-orange-50 to-white">
+        <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h4 className="text-2xl font-bold">Subscribe to our newsletter</h4>
-            <p className="mt-2 text-foreground/80">
+            <h4 className="text-2xl font-bold text-gray-900">Subscribe to our newsletter</h4>
+            <p className="mt-2 text-gray-700">
               Get stories from the field and updates about your donations.
             </p>
           </div>
@@ -257,9 +236,9 @@ export default function Index() {
               aria-label="email"
               type="email"
               placeholder="Your email"
-              className="rounded-md border px-3 py-2"
+              className="rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-500"
             />
-            <Button className="bg-primary text-primary-foreground">
+            <Button className="bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 shadow-md">
               Subscribe
             </Button>
           </form>
@@ -271,15 +250,11 @@ export default function Index() {
 
 function NewsCard() {
   return (
-    <article className="rounded-lg border bg-card p-4 flex gap-4">
-      <img
-        src="https://placehold.co/120x80"
-        alt="news"
-        className="h-20 w-28 object-cover rounded-md"
-      />
+    <article className="rounded-lg border border-gray-200 bg-white p-4 flex gap-4 hover:shadow-md transition-shadow">
+      <div className="h-20 w-28 bg-gradient-to-br from-orange-100 to-red-100 rounded-md flex-shrink-0" />
       <div>
-        <div className="text-sm font-semibold">Headline</div>
-        <div className="mt-1 text-xs text-foreground/70">
+        <div className="text-sm font-semibold text-gray-900">Headline</div>
+        <div className="mt-1 text-xs text-gray-600">
           Short summary of the news article.
         </div>
       </div>
@@ -289,12 +264,12 @@ function NewsCard() {
 
 function Testimonial() {
   return (
-    <blockquote className="rounded-lg border bg-card p-6">
-      <p className="text-sm text-foreground/80">
+    <blockquote className="rounded-lg border border-gray-200 bg-white p-6 hover:shadow-md transition-shadow">
+      <p className="text-sm text-gray-800">
         “I donated and could see exactly where funds went — photos and updates
         made it real.”
       </p>
-      <footer className="mt-4 text-sm font-semibold">— A donor</footer>
+      <footer className="mt-4 text-sm font-semibold text-gray-900">— A donor</footer>
     </blockquote>
   );
 }
