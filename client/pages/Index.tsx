@@ -7,6 +7,11 @@ import { BannerCarousel } from "@/components/BannerCarousel";
 import { Eye, BarChart3, ShieldCheck, ArrowRight } from "lucide-react";
 import ScrollStack, { ScrollStackItem } from "@/components/ScrollStack";
 import "@/components/ScrollStack.css";
+import { fundraisers } from "@/data/funraiser";
+import { LogoLoop } from "@/components/LogoLoop";
+import { ngoPartners } from "@/data/ngoPartners";
+import { getDonateRedirect } from "@/utils/auth";
+import CardSwap, { Card } from "@/components/CardSwap";
 
 
 // Banner data with 5 banners
@@ -97,6 +102,127 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Donors Club */}
+      <section className="py-16 bg-gradient-to-b from-orange-50 to-white relative">
+        <div className="container mx-auto px-4 mb-10">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">
+              Donors Club
+            </h2>
+            <p className="mt-3 text-lg text-gray-700 max-w-2xl mx-auto">
+              Join Our Exclusive Executive Committee – Donors Club
+            </p>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left side - Content */}
+            <div>
+              <div className="max-w-2xl">
+                <p className="text-gray-700 mb-6 leading-relaxed">
+                  Donate ₹10,000 for 12 months to become a member of our Executive Donors Club, where you'll enjoy the following perks:
+                </p>
+                <div className="space-y-4 mb-6">
+                  <p className="text-sm text-gray-600">
+                    • 1% waiver on your child's tuition fees
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    • 1% discount on automobile purchases within your zonal region
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    • 1% discount on life and health insurance premiums
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    • Diwali shopping vouchers
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    • One complimentary meal at any of our NGO partners' franchise outlets
+                  </p>
+                </div>
+                <p className="text-sm text-gray-600 italic mb-4">
+                  All these benefits are made possible by our generous NGO partners.
+                </p>
+                <p className="text-xs text-gray-500">
+                  (T&C apply)
+                </p>
+              </div>
+            </div>
+
+            {/* Right side - CardSwap */}
+            <div className="relative w-full" style={{ height: '600px', minHeight: '500px' }}>
+              <CardSwap
+                width={400}
+                height={300}
+                cardDistance={60}
+                verticalDistance={70}
+                delay={5000}
+                pauseOnHover={false}
+              >
+                <Card className="bg-white border border-gray-200 shadow-lg">
+                  <div className="h-full flex flex-col justify-center">
+                    <div className="text-4xl font-bold text-primary mb-3">1%</div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Tuition Fee Waiver</h3>
+                    <p className="text-gray-600">1% waiver on your child's tuition fees</p>
+                  </div>
+                </Card>
+                <Card className="bg-white border border-gray-200 shadow-lg">
+                  <div className="h-full flex flex-col justify-center">
+                    <div className="text-4xl font-bold text-primary mb-3">1%</div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Auto Discount</h3>
+                    <p className="text-gray-600">1% discount on automobile purchases within your zonal region</p>
+                  </div>
+                </Card>
+                <Card className="bg-white border border-gray-200 shadow-lg">
+                  <div className="h-full flex flex-col justify-center">
+                    <div className="text-4xl font-bold text-primary mb-3">1%</div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Insurance Discount</h3>
+                    <p className="text-gray-600">1% discount on life and health insurance premiums</p>
+                  </div>
+                </Card>
+                <Card className="bg-white border border-gray-200 shadow-lg">
+                  <div className="h-full flex flex-col justify-center">
+                    <div className="text-4xl font-bold text-primary mb-3">🎁</div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Diwali Vouchers</h3>
+                    <p className="text-gray-600">Diwali shopping vouchers</p>
+                  </div>
+                </Card>
+                <Card className="bg-white border border-gray-200 shadow-lg">
+                  <div className="h-full flex flex-col justify-center">
+                    <div className="text-4xl font-bold text-primary mb-3">🍽️</div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Complimentary Meal</h3>
+                    <p className="text-gray-600">One complimentary meal at any of our NGO partners' franchise outlets</p>
+                  </div>
+                </Card>
+              </CardSwap>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trusted NGO partners */}
+      <section className="container mx-auto px-4 py-16">
+        <h3 className="text-2xl font-bold text-gray-900">Our trusted NGO partners</h3>
+        <p className="mt-2 text-gray-700">
+          Verified organizations working with communities across India.
+        </p>
+
+        <div className="mt-6">
+          <LogoLoop
+            logos={ngoPartners}
+            speed={80}
+            direction="left"
+            logoHeight={40}
+            gap={48}
+            pauseOnHover={true}
+            fadeOut={true}
+            fadeOutColor="#fdfbf9"
+            scaleOnHover={true}
+            ariaLabel="NGO partner logos"
+          />
+        </div>
+      </section>
+
       {/* Support a Fundraiser */}
       <section className="bg-gradient-to-b from-orange-50 to-white">
         <div className="container mx-auto px-4 py-16">
@@ -116,58 +242,53 @@ export default function Index() {
           </div>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <article key={i} className="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-md transition-shadow">
-                <div className="flex gap-3">
-                  <div className="h-20 w-28 bg-gradient-to-br from-orange-100 to-red-100 rounded-md flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Fundraiser {i + 1}</h4>
-                    <div className="text-sm text-gray-600">
-                      by Volunteer
+            {fundraisers.map((fundraiser, i) => {
+              const percent = Math.min(100, Math.floor((fundraiser.raised / fundraiser.goal) * 100));
+              return (
+                <article key={i} className="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-md transition-shadow">
+                  <div className="flex gap-3">
+                    <div className="h-20 w-28 bg-gradient-to-br from-orange-100 to-red-100 rounded-md flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{fundraiser.name}</h4>
+                      <div className="text-sm text-gray-600">
+                        by {fundraiser.volunteer}
+                      </div>
+                      <p className="mt-2 text-sm text-gray-700">
+                        {fundraiser.description}
+                      </p>
                     </div>
-                    <p className="mt-2 text-sm text-gray-700">
-                      Brief one-line description of the fundraiser.
-                    </p>
                   </div>
-                </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="text-sm font-semibold text-red-600">
-                    ₹{1000 * (i + 1)} raised
+                  
+                  {/* Progress Bar */}
+                  <div className="mt-4">
+                    <div className="h-2 w-full rounded-full bg-gray-200">
+                      <div
+                        className="h-2 rounded-full bg-gradient-to-r from-red-500 to-red-600"
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                    <div className="mt-1 text-xs text-gray-600">
+                      {percent}% funded
+                    </div>
                   </div>
-                  <Link to="/donate">
-                    <Button
-                      size="sm"
-                      className="bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700"
-                    >
-                      Donate
-                    </Button>
-                  </Link>
-                </div>
-              </article>
-            ))}
+
+                  <div className="mt-4 flex items-center justify-between">
+                    <div className="text-sm font-semibold text-red-600">
+                      ₹{fundraiser.raised.toLocaleString()} raised
+                    </div>
+                    <Link to={getDonateRedirect()}>
+                      <Button
+                        size="sm"
+                        className="bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700"
+                      >
+                        Donate
+                      </Button>
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
-        </div>
-      </section>
-
-      {/* Trusted NGO partners */}
-      <section className="container mx-auto px-4 py-16">
-        <h3 className="text-2xl font-bold text-gray-900">Our trusted NGO partners</h3>
-        <p className="mt-2 text-gray-700">
-          Verified organizations working with communities across India.
-        </p>
-
-        <div className="mt-6 grid grid-cols-2 md:grid-cols-6 gap-6 items-center">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-center rounded-md border border-gray-200 bg-white p-4"
-            >
-              <img
-                src={`https://placehold.co/120x40?text=NGO+${i + 1}`}
-                alt={`ngo ${i}`}
-              />
-            </div>
-          ))}
         </div>
       </section>
 
@@ -190,34 +311,11 @@ export default function Index() {
           </div>
 
           <div>
-            <Link to="/donate">
+            <Link to="/explore">
               <Button className="uppercase bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 shadow-md">
                 Start donating
               </Button>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* News & Testimonials */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="grid gap-10 md:grid-cols-3">
-          <div>
-            <h4 className="text-xl font-bold text-gray-900">In the news</h4>
-            <div className="mt-4 space-y-4">
-              <NewsCard />
-              <NewsCard />
-            </div>
-          </div>
-
-          <div className="md:col-span-2">
-            <h4 className="text-xl font-bold text-gray-900">What people say about Dehi</h4>
-            <div className="mt-4 grid gap-6 md:grid-cols-2">
-              <Testimonial />
-              <Testimonial />
-              <Testimonial />
-              <Testimonial />
-            </div>
           </div>
         </div>
       </section>
@@ -245,31 +343,5 @@ export default function Index() {
         </div>
       </section>
     </main>
-  );
-}
-
-function NewsCard() {
-  return (
-    <article className="rounded-lg border border-gray-200 bg-white p-4 flex gap-4 hover:shadow-md transition-shadow">
-      <div className="h-20 w-28 bg-gradient-to-br from-orange-100 to-red-100 rounded-md flex-shrink-0" />
-      <div>
-        <div className="text-sm font-semibold text-gray-900">Headline</div>
-        <div className="mt-1 text-xs text-gray-600">
-          Short summary of the news article.
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function Testimonial() {
-  return (
-    <blockquote className="rounded-lg border border-gray-200 bg-white p-6 hover:shadow-md transition-shadow">
-      <p className="text-sm text-gray-800">
-        “I donated and could see exactly where funds went — photos and updates
-        made it real.”
-      </p>
-      <footer className="mt-4 text-sm font-semibold text-gray-900">— A donor</footer>
-    </blockquote>
   );
 }

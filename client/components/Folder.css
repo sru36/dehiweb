@@ -1,0 +1,194 @@
+:root {
+  --folder-color: #FF5E5E;
+  --folder-back-color: #ff8a8a;
+  --paper-1: #e6e6e6;
+  --paper-2: #f2f2f2;
+  --paper-3: #ffffff;
+}
+
+.folder {
+  transition: all 0.2s ease-in;
+  cursor: pointer;
+}
+
+.folder:not(.folder--click):hover {
+  transform: translateY(-8px);
+}
+
+.folder:not(.folder--click):hover .paper {
+  transform: translate(-50%, 0%);
+}
+
+.folder:not(.folder--click):hover .folder__front {
+  transform: skew(15deg) scaleY(0.6);
+}
+
+.folder:not(.folder--click):hover .right {
+  transform: skew(-15deg) scaleY(0.6);
+}
+
+.folder.open {
+  transform: translateY(-8px);
+}
+
+.folder.open .paper {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.folder.open .paper:nth-child(1) {
+  transform: translate(-150%, -150%) rotateZ(-15deg) scale(1);
+  transition-delay: 0.1s;
+}
+
+.folder.open .paper:nth-child(1):hover {
+  transform: translate(-150%, -150%) rotateZ(-15deg) scale(1.05);
+}
+
+.folder.open .paper:nth-child(2) {
+  transform: translate(150%, -150%) rotateZ(15deg) scale(1);
+  transition-delay: 0.2s;
+}
+
+.folder.open .paper:nth-child(2):hover {
+  transform: translate(150%, -150%) rotateZ(15deg) scale(1.05);
+}
+
+.folder.open .paper:nth-child(3) {
+  transform: translate(-150%, 150%) rotateZ(5deg) scale(1);
+  transition-delay: 0.3s;
+}
+
+.folder.open .paper:nth-child(3):hover {
+  transform: translate(-150%, 150%) rotateZ(5deg) scale(1.05);
+}
+
+.folder.open .paper:nth-child(4) {
+  transform: translate(150%, 150%) rotateZ(-5deg) scale(1);
+  transition-delay: 0.4s;
+}
+
+.folder.open .paper:nth-child(4):hover {
+  transform: translate(150%, 150%) rotateZ(-5deg) scale(1.05);
+}
+
+.folder.open .folder__front {
+  transform: skew(15deg) scaleY(0.6);
+}
+
+.folder.open .right {
+  transform: skew(-15deg) scaleY(0.6);
+}
+
+.folder__back {
+  position: relative;
+  width: 100px;
+  height: 80px;
+  background: var(--folder-back-color);
+  border-radius: 0px 10px 10px 10px;
+}
+
+.folder__back::after {
+  position: absolute;
+  z-index: 0;
+  bottom: 98%;
+  left: 0;
+  content: '';
+  width: 30px;
+  height: 10px;
+  background: var(--folder-back-color);
+  border-radius: 5px 5px 0 0;
+}
+
+.paper {
+  position: absolute;
+  z-index: 2;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, 10%) scale(0.15);
+  width: 280px;
+  height: 320px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  border-radius: 14px;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1.5rem;
+  box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.15), -20px -20px 60px rgba(255, 255, 255, 0.7);
+  outline: 2px solid white;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.paper::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #ff5e5e;
+  opacity: 0.1;
+  filter: blur(60px);
+  animation: blob-bounce 8s infinite ease;
+  transform: translate(-50%, -50%);
+}
+
+.paper > * {
+  position: relative;
+  z-index: 2;
+}
+
+.paper:nth-child(2) {
+  background: rgba(255, 255, 255, 0.95);
+  width: 300px;
+  height: 310px;
+}
+
+.paper:nth-child(3) {
+  background: rgba(255, 255, 255, 0.95);
+  width: 320px;
+  height: 300px;
+}
+
+.paper:nth-child(4) {
+  background: rgba(255, 255, 255, 0.95);
+  width: 300px;
+  height: 310px;
+}
+
+@keyframes blob-bounce {
+  0% {
+    transform: translate(-50%, -50%) translate3d(-20px, -20px, 0);
+  }
+  25% {
+    transform: translate(-50%, -50%) translate3d(20px, -20px, 0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translate3d(20px, 20px, 0);
+  }
+  75% {
+    transform: translate(-50%, -50%) translate3d(-20px, 20px, 0);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate3d(-20px, -20px, 0);
+  }
+}
+
+.folder__front {
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  background: var(--folder-color);
+  border-radius: 5px 10px 10px 10px;
+  transform-origin: bottom;
+  transition: all 0.3s ease-in-out;
+}

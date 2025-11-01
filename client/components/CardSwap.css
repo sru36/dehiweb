@@ -1,0 +1,55 @@
+.card-swap-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  perspective: 900px;
+  overflow: visible;
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  padding: 2.5rem;
+  color: #333333;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
+@media (max-width: 768px) {
+  .card-swap-container {
+    transform: translate(-50%, -50%) scale(0.75);
+  }
+  
+  .card {
+    padding: 1.5rem;
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-swap-container {
+    transform: translate(-50%, -50%) scale(0.55);
+  }
+  
+  .card {
+    padding: 1.25rem;
+    min-height: 200px;
+  }
+}
+

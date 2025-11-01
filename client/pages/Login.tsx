@@ -11,9 +11,14 @@ export default function Login() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => setLoading(false), 800);
-    // mock login
-    alert("Logged in (mock)");
+    setTimeout(() => {
+      setLoading(false);
+      // Set user token in localStorage to mark user as authenticated
+      localStorage.setItem('userToken', 'authenticated');
+      localStorage.setItem('userSession', JSON.stringify({ email, loggedInAt: new Date().toISOString() }));
+      // Redirect to donate page after login
+      window.location.href = '/donate';
+    }, 800);
   };
 
   return (

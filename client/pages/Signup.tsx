@@ -14,7 +14,17 @@ export default function Signup() {
     e.preventDefault();
     if (!agree) return alert("Please accept the Terms of Service");
     if (password !== confirm) return alert("Passwords do not match");
-    alert("Account created (mock)");
+    
+    // Set user token in localStorage to mark user as authenticated
+    localStorage.setItem('userToken', 'authenticated');
+    localStorage.setItem('userSession', JSON.stringify({ 
+      name, 
+      email, 
+      signedUpAt: new Date().toISOString() 
+    }));
+    
+    // Redirect to donate page after signup (user's dashboard)
+    window.location.href = '/donate';
   };
 
   return (

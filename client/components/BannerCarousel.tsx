@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getDonateRedirect } from "@/utils/auth";
 
 interface Banner {
   id: number;
@@ -76,7 +77,7 @@ export function BannerCarousel({
                       {banner.description}
                     </p>
                   )}
-                  <Link to={banner.link || "/donate"}>
+                  <Link to={getDonateRedirect()}>
                     <Button
                       size="lg"
                       className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg font-semibold rounded-lg"

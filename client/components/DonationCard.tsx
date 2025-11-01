@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { DonationCampaign } from "@/data/donationCampaigns";
 import { Heart } from "lucide-react";
+import { getDonateRedirect } from "@/utils/auth";
 
 interface DonationCardProps {
   campaign: DonationCampaign;
@@ -51,7 +52,7 @@ export function DonationCard({ campaign }: DonationCardProps) {
         </div>
 
         {/* CTA Button */}
-        <Link to="/donate" className="block w-full mt-4">
+        <Link to={getDonateRedirect()} className="block w-full mt-4">
           <Button
             size="sm"
             className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
