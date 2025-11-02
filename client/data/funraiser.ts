@@ -5,6 +5,7 @@ export const fundraisers = [
     description: "Help underprivileged children buy their first set of school books — शिक्षा सबके लिए!",
     raised: 1000,
     goal: 50000,
+    imageUrl: "",
   },
   {
     name: "A Roof for Ramu",
@@ -12,6 +13,7 @@ export const fundraisers = [
     description: "Support Ramu's family to rebuild their small home destroyed in heavy rains.",
     raised: 2000,
     goal: 80000,
+    imageUrl: "https://images.unsplash.com/photo-1652596978415-84d55f830d40?ixid=M3wxOTgwNzN8MHwxfHNlYXJjaHwxfHxJbmRpYW4lMjBmYW1pbHklMjBob21lJTIwZGFtYWdlZCUyMGJ5JTIwbW9uc29vbiUyMHJhaW5zJTIwcnVyYWwlMjB2aWxsYWdlfGVufDF8fHx8MTc2MjA1NTExNHww&ixlib=rb-4.1.0&w=3000&q=25",
   },
   {
     name: "Meals of Hope",

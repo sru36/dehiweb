@@ -15,8 +15,8 @@ export function Carousel({
   pauseOnHover = false,
   vertical = false,
   reverse = false,
-  repeat = 2,
-  duration = 60,
+  repeat = 4,
+  duration = 30,
   gap = 16,
 }: CarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);

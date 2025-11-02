@@ -9,13 +9,14 @@ import ScrollStack, { ScrollStackItem } from "@/components/ScrollStack";
 import "@/components/ScrollStack.css";
 import { fundraisers } from "@/data/funraiser";
 import { LogoLoop } from "@/components/LogoLoop";
-import { ngoPartners } from "@/data/ngoPartners";
+
 import { recordDonationIntent, isAuthenticated } from "@/utils/auth";
 import FundraiserDonate from "@/components/FundraiserDonate";
 import CardSwap, { Card } from "@/components/CardSwap";
 import { useState, useEffect } from 'react';
 import { useDonationModal } from '@/components/DonationModal';
 import { useNavigate } from 'react-router-dom';
+import {ngoPartners} from "@/components/ngopartners";
 
 
 // Banner data with 5 banners
@@ -52,7 +53,7 @@ const banners = [
     id: 5,
     title: "Environmental\nConservation - Plant\nTrees, Save Earth",
     description: "Join us in our mission to create a greener and healthier planet.",
-    imageUrl: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
+    imageUrl: "https://tse4.mm.bing.net/th/id/OIP.53W4VYz71uFjmegne7xAhAHaEK?rs=1&pid=ImgDetMain&o=7&rm=3",
     link: "/donate?cause=environment",
   },
 ];

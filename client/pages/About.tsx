@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Stack from "@/components/Stack";
-import TextType from "@/components/TextType";
+import  TextType from "@/components/TextType";
 import ScrollStack, { ScrollStackItem } from "@/components/ScrollStack";
 
 const ABOUT_IMAGE =

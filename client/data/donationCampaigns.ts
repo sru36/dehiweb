@@ -1,3 +1,12 @@
+import cow from "@/data/cow.png";
+import dogs from "@/data/dogs.png";
+import kind from "@/data/kind.png";
+import h from "@/data/h.png";
+import orphan from "@/data/orphan.png";
+import elder from "@/data/elder.png";
+import poor from "@/data/poor.png";
+import sew from "@/data/sew.png";
+
 export interface DonationCampaign {
   id: number;
   titleEn: string;
@@ -16,7 +25,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Your kindness will bring food to sacred cows who go hungry every day.",
     descriptionHi: "आपकी दया से पवित्र गायों को रोज भोजन मिलेगा जो भूखी रहती हैं।",
     suggestedAmount: 1100,
-    imageUrl: "",
+    imageUrl: cow,
   },
   {
     id: 2,
@@ -34,7 +43,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Even the smallest contribution can make someone's tomorrow possible.",
     descriptionHi: "छोटा सा योगदान भी किसी का कल बदल सकता है।",
     suggestedAmount: 50,
-    imageUrl: "",
+    imageUrl: kind,
   },
   {
     id: 4,
@@ -43,7 +52,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Bring warmth and love to helpless strays waiting for a meal.",
     descriptionHi: "बेसहारा जानवरों को प्यार और खाना देकर उन्हें गर्माहट दें।",
     suggestedAmount: 1000,
-    imageUrl: "",
+    imageUrl: dogs,
   },
   {
     id: 5,
@@ -52,7 +61,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Help this 7-year-old fight her battle for life with your blessings.",
     descriptionHi: "7 साल की रानी को अपना आशीर्वाद देकर जीवन की लड़ाई जीतने में मदद करें।",
     suggestedAmount: 2500,
-    imageUrl: "",
+    imageUrl: h,
   },
   {
     id: 6,
@@ -70,7 +79,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "One blanket can protect a life during chilling winter nights.",
     descriptionHi: "एक कंबल सर्दी की ठंडी रात में किसी की जान बचा सकता है।",
     suggestedAmount: 300,
-    imageUrl: "",
+    imageUrl: orphan,
   },
   {
     id: 8,
@@ -79,7 +88,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Provide access to safe drinking water and prevent diseases.",
     descriptionHi: "स्वच्छ पानी से परिवारों को स्वास्थ्य का उपहार दें।",
     suggestedAmount: 800,
-    imageUrl: "",
+    imageUrl: poor,
   },
   {
     id: 9,
@@ -88,7 +97,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Every plate you fill brings a smile to a child who needs hope.",
     descriptionHi: "हर प्लेट भरने से एक बच्चे के चेहरे पर मुस्कान आती है।",
     suggestedAmount: 600,
-    imageUrl: "",
+    imageUrl: orphan,
   },
   {
     id: 10,
@@ -97,7 +106,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Empower a woman to earn and live with dignity.",
     descriptionHi: "एक महिला को आत्मनिर्भर बनाकर उसे गरिमा से जीने का अधिकार दें।",
     suggestedAmount: 1200,
-    imageUrl: "",
+    imageUrl: sew,
   },
   {
     id: 11,
@@ -124,7 +133,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Respect the elders who raised us — feed them with love.",
     descriptionHi: "उन बुजुर्गों को प्यार से खिलाएं जिन्होंने हमें पाला।",
     suggestedAmount: 750,
-    imageUrl: "",
+    imageUrl: elder,
   },
   {
     id: 14,
@@ -133,7 +142,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Offer safety and shade to voiceless beings under the sun.",
     descriptionHi: "बेजुबान जानवरों को सूरज से छाया और सुरक्षा दें।",
     suggestedAmount: 1500,
-    imageUrl: "",
+    imageUrl: dogs,
   },
   {
     id: 15,
@@ -143,95 +152,5 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionHi: "जब बेटी पढ़ती है तो पूरा परिवार आगे बढ़ता है।",
     suggestedAmount: 1000,
     imageUrl: "",
-  },
-  {
-    id: 16,
-    titleEn: "Help Farmers in Drought Areas",
-    titleHi: "सूखे प्रभावित किसानों की मदद करें",
-    descriptionEn: "Help them regain hope with seeds, tools, and water access.",
-    descriptionHi: "किसानों को बीज, उपकरण और जल से आशा दिलाएं।",
-    suggestedAmount: 999,
-    imageUrl: "",
-  },
-  {
-    id: 17,
-    titleEn: "Provide Hygiene Kits to Women",
-    titleHi: "महिलाओं को स्वच्छता किट दें",
-    descriptionEn: "Dignity and health for every woman in rural India.",
-    descriptionHi: "हर महिला को स्वास्थ्य और गरिमा का अधिकार दें।",
-    suggestedAmount: 600,
-    imageUrl: "",
-  },
-  {
-    id: 18,
-    titleEn: "Bring a Smile to Orphaned Babies",
-    titleHi: "अनाथ शिशुओं को देखभाल दें",
-    descriptionEn: "Your love can replace the touch they never had.",
-    descriptionHi: "आपका प्यार उन्हें मिली हुई कमी को पूरा करेगा।",
-    suggestedAmount: 700,
-    imageUrl: "",
-  },
-  {
-    id: 19,
-    titleEn: "Feed the Hungry at Night Shelters",
-    titleHi: "रात के आश्रयों में भोजन पहुँचाएं",
-    descriptionEn: "Share warmth, food, and hope with those who have nothing.",
-    descriptionHi: "ज���नके पास कुछ नहीं उन्हें प्यार, खाना और आशा दें।",
-    suggestedAmount: 900,
-    imageUrl: "",
-  },
-  {
-    id: 20,
-    titleEn: "Sponsor an Animal Rescue",
-    titleHi: "घायल जानवर को जीवन दें",
-    descriptionEn: "Help save an injured animal from the streets.",
-    descriptionHi: "सड़क पर घायल जानवरों को नया जीवन दें।",
-    suggestedAmount: 800,
-    imageUrl: "",
-  },
-  {
-    id: 21,
-    titleEn: "Buy School Uniform for a Child",
-    titleHi: "बच्चे की स्कूल यूनिफॉर्म दिलाएं",
-    descriptionEn: "Let them walk to school with pride and confidence.",
-    descriptionHi: "बच्चे को गर्व से स्कूल जाने का आत्मविश्वास दें।",
-    suggestedAmount: 300,
-    imageUrl: "",
-  },
-  {
-    id: 22,
-    titleEn: "Provide Medicines to a Cancer Patient",
-    titleHi: "कैंसर मरीजों को दवाएं दिलाएं",
-    descriptionEn: "Every rupee counts in their fight for life.",
-    descriptionHi: "हर रुपया जीवन की लड़ाई ��ें मायने रखता है।",
-    suggestedAmount: 2000,
-    imageUrl: "",
-  },
-  {
-    id: 23,
-    titleEn: "Contribute to School Meals",
-    titleHi: "स्कूल के दोपहर के भोजन में सहयोग करें",
-    descriptionEn: "No child should study on an empty stomach.",
-    descriptionHi: "कोई बच्चा भूखे पेट पढ़ने न जाए।",
-    suggestedAmount: 700,
-    imageUrl: "",
-  },
-  {
-    id: 24,
-    titleEn: "Help Widow Women Learn Skills",
-    titleHi: "विधवा महिलाओं को आत्मनिर्भर बनाएं",
-    descriptionEn: "Help them rebuild life through training and confidence.",
-    descriptionHi: "महिलाओं को कौशल से जीवन फिर से बनाने में मदद करें।",
-    suggestedAmount: 1100,
-    imageUrl: "",
-  },
-  {
-    id: 25,
-    titleEn: "Celebrate with a Birthday Donation",
-    titleHi: "अपना जन्मदिन किसी की मुस्कान में बदलें",
-    descriptionEn: "Make your special day a reason for someone's happiness.",
-    descriptionHi: "अपने खुशी के दिन को किसी ���ी खुशी का दिन बनाएं।",
-    suggestedAmount: 500,
-    imageUrl: "",
-  },
+  }
 ];
