@@ -100,7 +100,7 @@ export default function Dashboard() {
           Namaste {name}!
         </h1>
         <p className="mt-2 text-foreground/90 max-w-3xl" style={{ fontFamily: "'Noto Sans Devanagari', sans-serif" }}>
-          Thank you! आपकी एक पहल किसी की मुस्कान और हर donation को एक नई कहानी बन��ती है — आप ही हैं DEHI के असल�� hero!
+          Thank you! आपकी एक पहल किसी की मुस्कान और हर donation को एक नई कहानी बनाती है — आप ही हैं DEHI के असली hero!
         </p>
       </header>
 
