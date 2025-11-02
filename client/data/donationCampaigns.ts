@@ -6,6 +6,11 @@ import orphan from "@/data/orphan.png";
 import elder from "@/data/elder.png";
 import poor from "@/data/poor.png";
 import sew from "@/data/sew.png";
+import girl from "@/data/girl.png";
+import shoe from "@/data/shoe.png";
+import lamp from "@/data/lamp.png";
+import tree from "@/data/tree.png";
+import sonu from "@/data/sonu.png";
 
 export interface DonationCampaign {
   id: number;
@@ -34,7 +39,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "A small step that fuels a child's big dreams of education.",
     descriptionHi: "एक छोटा सा कदम जो बच्चे के शिक्षा के सपनों को बड़ा करता है।",
     suggestedAmount: 500,
-    imageUrl: "",
+    imageUrl: sonu,
   },
   {
     id: 3,
@@ -70,7 +75,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Your donation can bring sustainable light to rural homes.",
     descriptionHi: "आपका दान गाँव के घरों में हमेशा के लिए रोशनी ला सकता है।",
     suggestedAmount: 700,
-    imageUrl: "",
+    imageUrl: lamp,
   },
   {
     id: 7,
@@ -115,7 +120,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "A small seed from you can grow into a green tomorrow.",
     descriptionHi: "आपका दान कल को हरा-भरा बना सकता है।",
     suggestedAmount: 450,
-    imageUrl: "",
+    imageUrl: tree,
   },
   {
     id: 12,
@@ -124,7 +129,7 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Give comfort and confidence to children walking miles barefoot.",
     descriptionHi: "नंगे पैर चलने वाले बच्चों को आत्मविश्वास और आराम दें।",
     suggestedAmount: 400,
-    imageUrl: "",
+    imageUrl: shoe,
   },
   {
     id: 13,
@@ -151,6 +156,6 @@ export const donationCampaigns: DonationCampaign[] = [
     descriptionEn: "Because when a girl studies, the whole family rises.",
     descriptionHi: "जब बेटी पढ़ती है तो पूरा परिवार आगे बढ़ता है।",
     suggestedAmount: 1000,
-    imageUrl: "",
+    imageUrl: girl,
   }
 ];

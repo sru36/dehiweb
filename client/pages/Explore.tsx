@@ -1,183 +1,174 @@
-import { useState, useMemo, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { isAuthenticated, recordDonationIntent } from "@/utils/auth";
 import { useDonationModal } from "@/components/DonationModal";
-import { isAuthenticated } from "@/utils/auth";
 
-const CATEGORIES = [
-  "All Causes",
-  "Children",
-  "Elderly",
-  "Animal",
-  "Health",
-  "Poverty",
-  "Education",
-  "Differently Abled",
-];
+interface Banner {
+  id: number;
+  title: string;
+  description?: string;
+  imageUrl: string;
+  link?: string;
+}
 
-const SAMPLE_PROJECTS = Array.from({ length: 12 }).map((_, i) => {
-  const title = i % 3 === 0 ? "No Child Orphaned" : i % 3 === 1 ? "Feed the Hungry" : "Protect Abandoned Elders";
-  const ngo = i % 2 === 0 ? "Asha Foundation" : "LearnWell";
-  let category = 'All Causes';
-  const t = title.toLowerCase();
-  if (t.includes('child') || t.includes('children') || t.includes('orphan')) category = 'Children';
-  else if (t.includes('elder') || t.includes('elderly')) category = 'Elderly';
-  else if (t.includes('feed') || t.includes('hungry') || t.includes('meals')) category = 'Poverty';
-  else if (t.includes('plant') || t.includes('environment') || t.includes('trees')) category = 'Health';
+interface BannerCarouselProps {
+  banners: Banner[];
+  autoPlayInterval?: number;
+}
 
-  return {
-    id: i + 1,
-    title,
-    ngo,
-    image: `https://source.unsplash.com/collection/190727/800x600?sig=${i + 5}`,
-    raised: Math.floor(Math.random() * 8000000) + 100000,
-    goal: 10000000,
-    category,
-  };
-});
-
-export default function Explore() {
-  const [projects, setProjects] = useState(SAMPLE_PROJECTS);
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("All Causes");
+export function BannerCarousel({
+  banners,
+  autoPlayInterval = 5000,
+}: BannerCarouselProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const navigate = useNavigate();
   const { open } = useDonationModal();
 
+  // Start auto-play after ensuring first image loads
   useEffect(() => {
-    const h = (e: Event) => {
-      const detail = (e as CustomEvent).detail;
-      if (!detail || !detail.title || !detail.amount) return;
-      setProjects((prev) => prev.map((p) => {
-        const match = detail.title === p.title || detail.title.includes(p.title) || p.title.includes(detail.title);
-        if (match) {
-          return { ...p, raised: p.raised + detail.amount };
-        }
-        return p;
-      }));
-    };
-    window.addEventListener('donation:added', h as EventListener);
-    return () => window.removeEventListener('donation:added', h as EventListener);
+    const timer = setTimeout(() => {
+      setIsAutoPlaying(true);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
-  const filtered = useMemo(() => {
-    return projects.filter((p) => {
-      const matchesCat = category === "All Causes" || p.category === category;
-      const matchesQ =
-        query.trim() === "" ||
-        p.title.toLowerCase().includes(query.toLowerCase()) ||
-        p.ngo.toLowerCase().includes(query.toLowerCase());
-      return matchesCat && matchesQ;
+  // Auto-rotation for banners
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % banners.length);
+    }, autoPlayInterval);
+    return () => clearInterval(interval);
+  }, [banners.length, autoPlayInterval, isAutoPlaying]);
+
+  const goToSlide = (index: number) => setCurrentIndex(index);
+  const goToPrevious = () =>
+    setCurrentIndex((prev) => (prev - 1 + banners.length) % banners.length);
+  const goToNext = () =>
+    setCurrentIndex((prev) => (prev + 1) % banners.length);
+
+  const handleDonateClick = (banner: Banner) => {
+    if (!isAuthenticated()) {
+      navigate("/login");
+      return;
+    }
+
+    const cause =
+      banner.link && banner.link.includes("cause=")
+        ? decodeURIComponent(banner.link.split("cause=")[1])
+        : undefined;
+
+    recordDonationIntent({
+      id: banner.id,
+      title: banner.title,
+      amount: undefined,
+      cause,
+      source: "banner",
     });
-  }, [projects, query, category]);
+
+    open({
+      id: banner.id,
+      title: banner.title,
+      amount: undefined,
+      source: "banner",
+    });
+  };
 
   return (
-    <main className="container mx-auto px-4 py-12">
-      <header className="mb-8">
-        <h1 className="text-3xl font-extrabold">Hello, Changemaker!</h1>
-        <p className="mt-2 text-foreground/80">
-          Ready to make an impact? Browse through verified fundraisers and
-          donate to make a difference.
-        </p>
-      </header>
+    <section className="relative w-full h-[520px] overflow-hidden bg-black">
+      {/* Banner Slider */}
+      <div
+        className="flex h-full transition-transform duration-700 ease-in-out"
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`,
+          width: `${banners.length * 100}%`,
+        }}
+      >
+        {banners.map((banner) => (
+          <div
+            key={banner.id}
+            className="flex-shrink-0 w-full h-full relative flex items-center justify-center bg-black"
+          >
+            {/* Banner Image */}
+            <img
+              src={banner.imageUrl}
+              alt={banner.title}
+              className="absolute inset-0 w-full h-full object-cover md:object-contain lg:object-cover transition-transform duration-700"
+              loading="eager"
+              onError={(e) =>
+                (e.currentTarget.src =
+                  "https://via.placeholder.com/800x600?text=Image+Unavailable")
+              }
+            />
 
-      {/* Filters */}
-      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3 overflow-auto pb-1">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setCategory(cat)}
-              className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium ${category === cat ? "bg-primary text-primary-foreground" : "border bg-white text-foreground"}`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+            {/* Overlay for readability */}
+            <div className="absolute inset-0 bg-black/50" />
 
-        <div className="flex items-center gap-3">
-          <input
-            aria-label="Search projects"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search NGOs or fundraisers"
-            className="rounded-md border px-3 py-2 w-64"
+            {/* Text Content */}
+            <div className="absolute inset-0 flex items-center px-6 md:px-12 lg:px-20 z-10">
+              <div className="max-w-2xl text-white">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 whitespace-pre-line">
+                  {banner.title}
+                </h2>
+
+                {banner.description && (
+                  <p className="text-lg text-white/90 mb-6">
+                    {banner.description}
+                  </p>
+                )}
+
+                <button
+                  className="bg-white text-black px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+                  onClick={() => handleDonateClick(banner)}
+                >
+                  Donate Now
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Preload Images */}
+      {banners.map((banner) => (
+        <link key={banner.id} rel="preload" as="image" href={banner.imageUrl} />
+      ))}
+
+      {/* Navigation Arrows */}
+      <button
+        onClick={goToPrevious}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200"
+        aria-label="Previous banner"
+      >
+        <ChevronLeft className="h-6 w-6 text-gray-800" />
+      </button>
+
+      <button
+        onClick={goToNext}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200"
+        aria-label="Next banner"
+      >
+        <ChevronRight className="h-6 w-6 text-gray-800" />
+      </button>
+
+      {/* Pagination Dots */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {banners.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentIndex
+                ? "bg-blue-500 w-8"
+                : "bg-white/70 hover:bg-white"
+            }`}
+            aria-label={`Go to banner ${index + 1}`}
           />
-          <Button variant="outline">More Filters</Button>
-        </div>
+        ))}
       </div>
-
-      {/* Monthly Impact Grid */}
-      <section>
-        <h2 className="text-xl font-semibold">
-          Donate every month for longer impact
-        </h2>
-        <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.slice(0, 6).map((p) => (
-            <ProjectCard key={p.id} project={p} />
-          ))}
-        </div>
-        <div className="mt-6 text-right">
-          <Link to="/explore">
-            <Button variant="outline">View More Missions</Button>
-          </Link>
-        </div>
-      </section>
-
-    </main>
-  );
-}
-
-function ProjectCard({ project }: { project: any }) {
-  const percent = Math.min(
-    100,
-    Math.floor((project.raised / project.goal) * 100),
-  );
-  return (
-    <article className="rounded-lg border bg-white shadow-sm overflow-hidden">
-      <img
-        src={project.image}
-        alt={project.title}
-        className="h-44 w-full object-cover"
-      />
-      <div className="p-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">{project.title}</h3>
-          <div className="text-xs text-foreground/70">{project.category}</div>
-        </div>
-        <div className="mt-1 text-sm text-foreground/70">by {project.ngo}</div>
-        <p className="mt-3 text-sm text-foreground/80">
-          Support this important work and help the community.
-        </p>
-
-        <div className="mt-4 flex items-center justify-between gap-3">
-          <div className="w-2/3">
-            <div className="h-2 w-full rounded-full bg-[rgba(0,0,0,0.06)]">
-              <div
-                className="h-2 rounded-full bg-primary"
-                style={{ width: `${percent}%` }}
-              />
-            </div>
-            <div className="mt-1 text-xs text-foreground/70">
-              {percent}% funded
-            </div>
-          </div>
-          <div className="flex flex-col items-end gap-2">
-            <div className="text-sm font-semibold">
-              ₹{project.raised.toLocaleString()}
-            </div>
-            <Button
-              size="sm"
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
-              onClick={() => {
-                if (!isAuthenticated()) return navigate('/login');
-                open({ id: project.id, title: project.title, amount: undefined, source: 'project' });
-              }}
-            >
-              Donate
-            </Button>
-          </div>
-        </div>
-      </div>
-    </article>
+    </section>
   );
 }
