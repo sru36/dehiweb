@@ -15,20 +15,25 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import About from "./pages/About";
 import RegisterNGO from "./pages/RegisterNGO";
+import Dashboard from "./pages/Dashboard";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 
 const queryClient = new QueryClient();
 
+import { DonationModalProvider } from "@/components/DonationModal";
+
 function Layout() {
   return (
-    <div className="min-h-svh flex flex-col">
-      <NavBar />
-      <div className="flex-1">
-        <Outlet />
+    <DonationModalProvider>
+      <div className="min-h-svh flex flex-col">
+        <NavBar />
+        <div className="flex-1">
+          <Outlet />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </DonationModalProvider>
   );
 }
 
@@ -48,6 +53,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/register-ngo" element={<RegisterNGO />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

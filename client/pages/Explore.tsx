@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useDonationModal } from "@/components/DonationModal";
+import { isAuthenticated } from "@/utils/auth";
 
 const CATEGORIES = [
   "All Causes",
@@ -13,27 +15,52 @@ const CATEGORIES = [
   "Differently Abled",
 ];
 
-const SAMPLE_PROJECTS = Array.from({ length: 12 }).map((_, i) => ({
-  id: i + 1,
-  title:
-    i % 3 === 0
-      ? "No Child Orphaned"
-      : i % 3 === 1
-        ? "Feed the Hungry"
-        : "Protect Abandoned Elders",
-  ngo: i % 2 === 0 ? "Asha Foundation" : "LearnWell",
-  image: `https://source.unsplash.com/collection/190727/800x600?sig=${i + 5}`,
-  raised: Math.floor(Math.random() * 8000000) + 100000,
-  goal: 10000000,
-  category: CATEGORIES[i % CATEGORIES.length],
-}));
+const SAMPLE_PROJECTS = Array.from({ length: 12 }).map((_, i) => {
+  const title = i % 3 === 0 ? "No Child Orphaned" : i % 3 === 1 ? "Feed the Hungry" : "Protect Abandoned Elders";
+  const ngo = i % 2 === 0 ? "Asha Foundation" : "LearnWell";
+  let category = 'All Causes';
+  const t = title.toLowerCase();
+  if (t.includes('child') || t.includes('children') || t.includes('orphan')) category = 'Children';
+  else if (t.includes('elder') || t.includes('elderly')) category = 'Elderly';
+  else if (t.includes('feed') || t.includes('hungry') || t.includes('meals')) category = 'Poverty';
+  else if (t.includes('plant') || t.includes('environment') || t.includes('trees')) category = 'Health';
+
+  return {
+    id: i + 1,
+    title,
+    ngo,
+    image: `https://source.unsplash.com/collection/190727/800x600?sig=${i + 5}`,
+    raised: Math.floor(Math.random() * 8000000) + 100000,
+    goal: 10000000,
+    category,
+  };
+});
 
 export default function Explore() {
+  const [projects, setProjects] = useState(SAMPLE_PROJECTS);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All Causes");
+  const navigate = useNavigate();
+  const { open } = useDonationModal();
+
+  useEffect(() => {
+    const h = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (!detail || !detail.title || !detail.amount) return;
+      setProjects((prev) => prev.map((p) => {
+        const match = detail.title === p.title || detail.title.includes(p.title) || p.title.includes(detail.title);
+        if (match) {
+          return { ...p, raised: p.raised + detail.amount };
+        }
+        return p;
+      }));
+    };
+    window.addEventListener('donation:added', h as EventListener);
+    return () => window.removeEventListener('donation:added', h as EventListener);
+  }, []);
 
   const filtered = useMemo(() => {
-    return SAMPLE_PROJECTS.filter((p) => {
+    return projects.filter((p) => {
       const matchesCat = category === "All Causes" || p.category === category;
       const matchesQ =
         query.trim() === "" ||
@@ -41,7 +68,7 @@ export default function Explore() {
         p.ngo.toLowerCase().includes(query.toLowerCase());
       return matchesCat && matchesQ;
     });
-  }, [query, category]);
+  }, [projects, query, category]);
 
   return (
     <main className="container mx-auto px-4 py-12">
@@ -138,14 +165,16 @@ function ProjectCard({ project }: { project: any }) {
             <div className="text-sm font-semibold">
               ₹{project.raised.toLocaleString()}
             </div>
-            <Link to="/donate">
-              <Button
-                size="sm"
-                className="bg-primary text-primary-foreground hover:bg-primary/90"
-              >
-                Donate
-              </Button>
-            </Link>
+            <Button
+              size="sm"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              onClick={() => {
+                if (!isAuthenticated()) return navigate('/login');
+                open({ id: project.id, title: project.title, amount: undefined, source: 'project' });
+              }}
+            >
+              Donate
+            </Button>
           </div>
         </div>
       </div>

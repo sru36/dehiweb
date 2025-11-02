@@ -23,8 +23,8 @@ export default function Signup() {
       signedUpAt: new Date().toISOString() 
     }));
     
-    // Redirect to donate page after signup (user's dashboard)
-    window.location.href = '/donate';
+    // Redirect to dashboard after signup
+    window.location.href = '/dashboard';
   };
 
   return (

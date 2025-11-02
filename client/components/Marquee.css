@@ -1,0 +1,54 @@
+/* ===== Marquee Wrapper ===== */
+.group {
+  background: linear-gradient(90deg, #fdf2f8, #fef9c3); /* soft gradient */
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 2rem; /* increased font size */
+  font-weight: 1000;
+  color: #ff4949; /* strong red tone */
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ===== Animation ===== */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration, 10s) linear infinite;
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* space between items */
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration, 10s) linear infinite;
+}
+
+@keyframes marquee-vertical {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* ===== Link Style ===== */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.7;
+}

@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 import GlassSurface from "@/components/GlassSurface";
+import { useDonationModal } from '@/components/DonationModal';
+import { isAuthenticated } from '@/utils/auth';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function OurImpact() {
+  const navigate = useNavigate();
+  const { open } = useDonationModal();
+
   return (
     <main className="bg-background text-foreground min-h-screen">
       <header className="border-b bg-card/50">
@@ -187,12 +193,15 @@ export default function OurImpact() {
                 >
                   Explore Projects
                 </Link>
-                <Link
-                  to="/donate"
+                <button
+                  onClick={() => {
+                    if (!isAuthenticated()) { navigate('/login'); return; }
+                    open({ source: 'impact', title: 'Our Impact' });
+                  }}
                   className="px-6 py-3 rounded-lg border border-foreground/20 font-semibold hover:bg-foreground/5 transition-colors"
                 >
                   Make a Donation
-                </Link>
+                </button>
               </div>
             </div>
           </GlassSurface>
@@ -201,4 +210,3 @@ export default function OurImpact() {
     </main>
   );
 }
-

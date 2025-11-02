@@ -16,8 +16,8 @@ export default function Login() {
       // Set user token in localStorage to mark user as authenticated
       localStorage.setItem('userToken', 'authenticated');
       localStorage.setItem('userSession', JSON.stringify({ email, loggedInAt: new Date().toISOString() }));
-      // Redirect to donate page after login
-      window.location.href = '/donate';
+      // Redirect to dashboard after login
+      window.location.href = '/dashboard';
     }, 800);
   };
 

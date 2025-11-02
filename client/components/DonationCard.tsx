@@ -2,7 +2,33 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { DonationCampaign } from "@/data/donationCampaigns";
 import { Heart } from "lucide-react";
-import { getDonateRedirect } from "@/utils/auth";
+import { recordDonationIntent, isAuthenticated } from "@/utils/auth";
+import { useDonationModal } from "@/components/DonationModal";
+import { useNavigate } from "react-router-dom";
+
+function DonateButton({ onClick, suggestedAmount, title }: { onClick?: () => void; suggestedAmount?: number; title?: string }) {
+  const { open } = useDonationModal();
+  const navigate = useNavigate();
+  const handle = () => {
+    if (!isAuthenticated()) {
+      navigate('/login');
+      return;
+    }
+    onClick?.();
+    open({ id: title, title, amount: suggestedAmount, source: 'campaign' });
+  };
+  return (
+    <Button
+      size="sm"
+      onClick={handle}
+      className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+    >
+      <Heart className="h-4 w-4" />
+      Donate Now
+    </Button>
+  );
+}
+
 
 interface DonationCardProps {
   campaign: DonationCampaign;
@@ -52,15 +78,20 @@ export function DonationCard({ campaign }: DonationCardProps) {
         </div>
 
         {/* CTA Button */}
-        <Link to={getDonateRedirect()} className="block w-full mt-4">
-          <Button
-            size="sm"
-            className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <Heart className="h-4 w-4" />
-            Donate Now
-          </Button>
-        </Link>
+        <div className="block w-full mt-4">
+          <DonateButton
+            onClick={() =>
+              recordDonationIntent({
+                id: campaign.id,
+                title: campaign.titleEn,
+                amount: campaign.suggestedAmount,
+                source: 'campaign'
+              })
+            }
+            suggestedAmount={campaign.suggestedAmount}
+            title={campaign.titleEn}
+          />
+        </div>
 
         {/* Emotional Tagline */}
         <p className="mt-3 text-xs text-gray-600 italic text-center">

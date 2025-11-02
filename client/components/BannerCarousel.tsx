@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getDonateRedirect } from "@/utils/auth";
+import { recordDonationIntent } from "@/utils/auth";
+import BannerDonate from "@/components/BannerDonate";
 
 interface Banner {
   id: number;
@@ -77,14 +77,21 @@ export function BannerCarousel({
                       {banner.description}
                     </p>
                   )}
-                  <Link to={getDonateRedirect()}>
-                    <Button
-                      size="lg"
-                      className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg font-semibold rounded-lg"
-                    >
-                      Donate now
-                    </Button>
-                  </Link>
+                  <div>
+                    <BannerDonate
+                      onClick={() => {
+                        const cause = (banner.link && banner.link.includes('cause=')) ? decodeURIComponent(banner.link.split('cause=')[1]) : undefined;
+                        recordDonationIntent({
+                          id: banner.id,
+                          title: banner.title,
+                          amount: undefined,
+                          cause,
+                          source: 'banner'
+                        });
+                      }}
+                      title={banner.title}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -136,4 +143,3 @@ export function BannerCarousel({
     </section>
   );
 }
-

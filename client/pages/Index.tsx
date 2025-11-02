@@ -10,8 +10,12 @@ import "@/components/ScrollStack.css";
 import { fundraisers } from "@/data/funraiser";
 import { LogoLoop } from "@/components/LogoLoop";
 import { ngoPartners } from "@/data/ngoPartners";
-import { getDonateRedirect } from "@/utils/auth";
+import { recordDonationIntent, isAuthenticated } from "@/utils/auth";
+import FundraiserDonate from "@/components/FundraiserDonate";
 import CardSwap, { Card } from "@/components/CardSwap";
+import { useState, useEffect } from 'react';
+import { useDonationModal } from '@/components/DonationModal';
+import { useNavigate } from 'react-router-dom';
 
 
 // Banner data with 5 banners
@@ -54,6 +58,25 @@ const banners = [
 ];
 
 export default function Index() {
+  const [localFundraisers, setLocalFundraisers] = useState(fundraisers);
+  const navigate = useNavigate();
+  const { open } = useDonationModal();
+
+  useEffect(() => {
+    const h = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (!detail || !detail.title || !detail.amount) return;
+      setLocalFundraisers((prev) => prev.map((f) => {
+        if (f.name === detail.title || detail.title.includes(f.name) || f.name.includes(detail.title)) {
+          return { ...f, raised: f.raised + detail.amount };
+        }
+        return f;
+      }));
+    };
+    window.addEventListener('donation:added', h as EventListener);
+    return () => window.removeEventListener('donation:added', h as EventListener);
+  }, []);
+
   return (
     <main className="bg-background text-foreground">
       {/* Moving Banner Carousel */}
@@ -223,7 +246,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Support a Fundraiser */}
+      {/* Support a Fundraiser (reactive) */}
       <section className="bg-gradient-to-b from-orange-50 to-white">
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -242,7 +265,7 @@ export default function Index() {
           </div>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {fundraisers.map((fundraiser, i) => {
+            {localFundraisers.map((fundraiser, i) => {
               const percent = Math.min(100, Math.floor((fundraiser.raised / fundraiser.goal) * 100));
               return (
                 <article key={i} className="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-md transition-shadow">
@@ -258,7 +281,7 @@ export default function Index() {
                       </p>
                     </div>
                   </div>
-                  
+
                   {/* Progress Bar */}
                   <div className="mt-4">
                     <div className="h-2 w-full rounded-full bg-gray-200">
@@ -276,14 +299,19 @@ export default function Index() {
                     <div className="text-sm font-semibold text-red-600">
                       ₹{fundraiser.raised.toLocaleString()} raised
                     </div>
-                    <Link to={getDonateRedirect()}>
-                      <Button
-                        size="sm"
-                        className="bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700"
-                      >
-                        Donate
-                      </Button>
-                    </Link>
+                    <div>
+                      <FundraiserDonate
+                        onClick={() =>
+                          recordDonationIntent({
+                            id: fundraiser.name,
+                            title: fundraiser.name,
+                            amount: undefined,
+                            source: 'fundraiser'
+                          })
+                        }
+                        title={fundraiser.name}
+                      />
+                    </div>
                   </div>
                 </article>
               );
@@ -320,28 +348,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Simple blog CTA */}
-      <section className="bg-gradient-to-b from-orange-50 to-white">
-        <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h4 className="text-2xl font-bold text-gray-900">Subscribe to our newsletter</h4>
-            <p className="mt-2 text-gray-700">
-              Get stories from the field and updates about your donations.
-            </p>
-          </div>
-          <form className="flex gap-3" onSubmit={(e) => e.preventDefault()}>
-            <input
-              aria-label="email"
-              type="email"
-              placeholder="Your email"
-              className="rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-500"
-            />
-            <Button className="bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 shadow-md">
-              Subscribe
-            </Button>
-          </form>
-        </div>
-      </section>
     </main>
   );
 }

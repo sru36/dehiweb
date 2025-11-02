@@ -4,14 +4,24 @@ import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const navItems = [
-  { to: "/", label: "Home" },
-  { to: "/explore", label: "Explore" },
-  { to: "/about", label: "About" },
-  { to: "/login", label: "Login" },
-];
+import { isAuthenticated } from "@/utils/auth";
 
 export function NavBar() {
+  const authed = isAuthenticated();
+  const navItems = [
+    { to: "/", label: "Home" },
+    { to: "/explore", label: "Explore" },
+    { to: "/about", label: "About" },
+    { to: authed ? "/dashboard" : "/login", label: authed ? "Dashboard" : "Login" },
+  ];
+
+  const handleLogout = () => {
+    // lazy import to avoid circular
+    import("@/utils/auth").then((m) => {
+      m.logout();
+      window.location.href = '/';
+    });
+  };
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -48,7 +58,7 @@ export function NavBar() {
 
         <div className="hidden md:flex items-center gap-6">
           {navItems.map((item) => {
-            if (item.label === "Login") {
+            if (item.label === "Login" || item.label === "Dashboard") {
               return (
                 <Link key={item.to} to={item.to}>
                   <Button className="uppercase tracking-wide bg-primary text-primary-foreground hover:bg-primary/90">
@@ -73,6 +83,12 @@ export function NavBar() {
               </NavLink>
             );
           })}
+
+          {authed && (
+            <Button variant="ghost" onClick={handleLogout} className="uppercase tracking-wide">
+              Logout
+            </Button>
+          )}
         </div>
 
         <button
@@ -89,7 +105,7 @@ export function NavBar() {
         <div className="md:hidden border-t bg-background">
           <div className="container px-4 py-3 flex flex-col gap-3">
             {navItems.map((item) => {
-              if (item.label === "Login") {
+              if (item.label === "Login" || item.label === "Dashboard") {
                 return (
                   <Link
                     key={item.to}
@@ -119,6 +135,12 @@ export function NavBar() {
                 </NavLink>
               );
             })}
+
+            {authed && (
+              <Button className="w-full uppercase" onClick={() => { setOpen(false); handleLogout(); }}>
+                Logout
+              </Button>
+            )}
           </div>
         </div>
       )}
